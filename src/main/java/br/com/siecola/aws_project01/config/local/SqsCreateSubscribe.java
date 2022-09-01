@@ -1,11 +1,9 @@
-package br.com.curso.aws_project01.config.local;
+package br.com.siecola.aws_project01.config.local;
 
-import br.com.curso.aws_project01.service.ProductPublisherService;
 import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.sns.AmazonSNS;
-import com.amazonaws.services.sns.AmazonSNSClient;
 import com.amazonaws.services.sns.model.Topic;
 import com.amazonaws.services.sns.util.Topics;
 import com.amazonaws.services.sqs.AmazonSQS;
@@ -17,16 +15,18 @@ import org.springframework.context.annotation.Profile;
 
 @Configuration
 @Profile("local")
-public class sqsCreateSubscribe {
+public class SqsCreateSubscribe {
 
-    public sqsCreateSubscribe(AmazonSNS snsClient, @Qualifier("productEventsTopic") Topic productEventsTopic) {
+    public SqsCreateSubscribe(AmazonSNS snsClient, @Qualifier("productEventsTopic") Topic productEventsTopic) {
         AmazonSQS sqsClient = AmazonSQSClient.builder()
-                .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration("http://localhost:4566", Regions.US_EAST_1.getName()))
+                .withEndpointConfiguration(
+                        new AwsClientBuilder.EndpointConfiguration("http://localhost:4566",
+                                Regions.US_EAST_1.getName()))
                 .withCredentials(new DefaultAWSCredentialsProviderChain())
                 .build();
 
-       String productEventsQueueUrl = sqsClient.createQueue(
-               new CreateQueueRequest("product-events")).getQueueUrl();
+        String productEventsQueueUrl = sqsClient.createQueue(
+                new CreateQueueRequest("product-events")).getQueueUrl();
 
         Topics.subscribeQueue(snsClient, sqsClient, productEventsTopic.getTopicArn(), productEventsQueueUrl);
     }

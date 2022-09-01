@@ -1,7 +1,8 @@
-package br.com.curso.aws_project01.config;
+package br.com.siecola.aws_project01.config;
 
 import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
-import com.amazonaws.services.sns.*;
+import com.amazonaws.services.sns.AmazonSNS;
+import com.amazonaws.services.sns.AmazonSNSClientBuilder;
 import com.amazonaws.services.sns.model.Topic;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -19,7 +20,7 @@ public class SnsConfig {
     private String productEventsTopic;
 
     @Bean
-    public AmazonSNS snsClient(){
+    public AmazonSNS snsClient() {
         return AmazonSNSClientBuilder.standard()
                 .withRegion(awsRegion)
                 .withCredentials(new DefaultAWSCredentialsProviderChain())
@@ -27,7 +28,7 @@ public class SnsConfig {
     }
 
     @Bean(name = "productEventsTopic")
-    public Topic snsProductEventsTopic(){
+    public Topic snsProductEventsTopic() {
         return new Topic().withTopicArn(productEventsTopic);
     }
 }

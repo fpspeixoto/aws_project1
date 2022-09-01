@@ -1,4 +1,4 @@
-package br.com.curso.aws_project01.enums;
+package br.com.siecola.aws_project01.enums;
 
 public enum EventType {
     PRODUCT_CREATED,

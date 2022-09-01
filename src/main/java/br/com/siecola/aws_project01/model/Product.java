@@ -1,16 +1,13 @@
-package br.com.curso.aws_project01.model;
-
-import lombok.Data;
+package br.com.siecola.aws_project01.model;
 
 import javax.persistence.*;
 
-@Entity
-//@Data
 @Table(
-        uniqueConstraints ={
+        uniqueConstraints = {
                 @UniqueConstraint(columnNames = {"code"})
         }
 )
+@Entity
 public class Product {
 
     @Id
@@ -26,9 +23,10 @@ public class Product {
     @Column(length = 8, nullable = false)
     private String code;
 
-    @Column(length = 12)
-    private String color;
     private float price;
+
+    @Column(length = 12, nullable = true)
+    private String color;
 
     public long getId() {
         return id;
@@ -62,19 +60,19 @@ public class Product {
         this.code = code;
     }
 
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-
     public float getPrice() {
         return price;
     }
 
     public void setPrice(float price) {
         this.price = price;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 }
